@@ -1,5 +1,3 @@
-## Draughts
-This is a simple launcher for python draughts bots.
 ## Installation
 ```
 git clone https://github.com/DeltaElim/draughtsjudge
