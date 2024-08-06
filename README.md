@@ -38,6 +38,6 @@ The third digit corresponds to the y coordinate of the position the move was mad
 The fourth digit corresponds to the x coordinate of the position the move was made **to**, from left to right, starting at zero
 An example of a valid first move by white pieces would be ```5041```, which would look like ```2736``` to the black pieces.
 ## Launching
-Although the is a 'Browse' option in the applicaton, it requires restarting the program before launching the bots for the first time. The alternative is to copy your scripts in the same folder as the application and naming the files 'bot_A.py' and 'bot_B.py'
+Although there is a 'Browse' option in the applicaton, it requires restarting the program before launching the bots for the first time. The alternative is to copy your scripts in the same folder as the application and naming the files 'bot_A.py' and 'bot_B.py'
 The 'Play' button autoplays the game with an interval of 0.2 seconds between moves. Pressing 'Stop' will stop the autoplay, and pressing 'Reset' will reset the board to the starting position. Clicking on the board advances the game move by move. Journal on the side displays past moves in the notation described above.
 Press 'Exit' or close the window to exit the application.
