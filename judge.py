@@ -1,13 +1,3 @@
-asciiboard = 'w0w0w0w0' \
-             '0w0w0w0w' \
-             'w0w0w0w0' \
-             '0e0e0e0e' \
-             'e0e0e0e0' \
-             '0b0b0b0b' \
-             'b0b0b0b0' \
-             '0b0b0b0b'
-
-
 def boardclr():
     b = []
     for x in range(8):
@@ -74,6 +64,18 @@ def boardcheck(b):
     return check
 
 
+def boardcheckpiece(b, y, x):
+    check = False
+    if b[y][x] == 1:
+        if x <= 5 and y >= 2:
+            if b[y - 1][x + 1] == 3 and b[y - 2][x + 2] == 0:
+                check = True
+        if x >= 2 and y >= 2:
+            if b[y - 1][x - 1] == 3 and b[y - 2][x - 2] == 0:
+                check = True
+    return check
+
+
 def boardmove(b, move):
     ystart = move // 1000
     xstart = (move // 100) % 10
@@ -90,53 +92,12 @@ def boardmove(b, move):
                     allowmove = True
 
         elif b[ystart][xstart] == 2:
-            if abs(ystart - yend) == abs(xstart - xend):
-                clr = True
-                if ystart > yend and xstart > xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart - k][xstart - k] != 0:
-                            if b[ystart - k][xstart - k] == 3 or b[ystart - k][xstart - k] == 4:
-                                if ystart - k - 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
-
-                elif ystart > yend and xstart < xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart - k][xstart + k] != 0:
-                            if b[ystart - k][xstart + k] == 3 or b[ystart - k][xstart + k] == 4:
-                                if ystart - k - 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
-                elif ystart < yend and xstart > xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart + k][xstart - k] != 0:
-                            if b[ystart + k][xstart - k] == 3 or b[ystart + k][xstart - k] == 4:
-                                if ystart + k + 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
-                elif ystart < yend and xstart < xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart + k][xstart + k] != 0:
-                            if b[ystart + k][xstart + k] == 3 or b[ystart + k][xstart + k] == 4:
-                                if ystart + k + 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
+            if abs(ystart - yend) == 1 and abs(xstart - xend) == 1 and boardcheck(b) == False:
+                if b[yend][xend] == 0:
+                    allowmove = True
+            if abs(ystart - yend) == 2 and abs(xstart - xend) == 2:
+                if b[yend][xend] == 0 and b[(ystart + yend) // 2][(xstart + xend) // 2] == 3 or b[(ystart + yend) // 2][(xstart + xend) // 2] == 4:
+                    allowmove = True
 
         elif b[ystart][xstart] == 3:
             if ystart - yend == -1 and abs(xstart - xend) == 1 and boardcheck(boardflip(b).copy()) == False:
@@ -147,75 +108,27 @@ def boardmove(b, move):
                     allowmove = True
 
         elif b[ystart][xstart] == 4:
-            if abs(ystart - yend) == abs(xstart - xend):
-                clr = True
-                if ystart > yend and xstart > xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart - k][xstart - k] != 0:
-                            if b[ystart - k][xstart - k] == 1 or b[ystart - k][xstart - k] == 2:
-                                if ystart - k - 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
-
-                elif ystart > yend and xstart < xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart - k][xstart + k] != 0:
-                            if b[ystart - k][xstart + k] == 1 or b[ystart - k][xstart + k] == 2:
-                                if ystart - k - 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
-                elif ystart < yend and xstart > xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart + k][xstart - k] != 0:
-                            if b[ystart + k][xstart - k] == 1 or b[ystart + k][xstart - k] == 2:
-                                if ystart + k + 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
-                elif ystart < yend and xstart < xend:
-                    for k in range(1, abs(ystart - yend) + 1):
-                        if b[ystart + k][xstart + k] != 0:
-                            if b[ystart + k][xstart + k] == 1 or b[ystart + k][xstart + k] == 2:
-                                if ystart + k + 1 == yend:
-                                    allowmove = True
-                                    break
-                            else:
-                                clr = False
-                    if clr:
-                        allowmove = True
+            if abs(ystart - yend) == 1 and abs(xstart - xend) == 1 and boardcheck(boardflip(b).copy()) == False:
+                if b[yend][xend] == 0:
+                    allowmove = True
+            if abs(ystart - yend) == 2 and abs(xstart - xend) == 2:
+                if b[yend][xend] == 0 and b[(ystart + yend) // 2][(xstart + xend) // 2] == 1 or b[(ystart + yend) // 2][(xstart + xend) // 2] == 2:
+                    allowmove = True
     if allowmove:
-        if b[ystart][xstart] == 1:
+        if b[ystart][xstart] == 1 or b[ystart][xstart] == 2:
             if abs(ystart - yend) == 2:
                 b[(ystart + yend) // 2][(xstart + xend) // 2] = 0
-            if yend == 0:
+            if yend == 0 or b[ystart][xstart] == 2:
                 b[yend][xend] = 2
             else:
                 b[yend][xend] = 1
-        elif b[ystart][xstart] == 2:
-            b[yend][xend] = 2
-            b[min(ystart, yend) + abs(ystart - yend) - 1][min(xstart, xend) + abs(xstart - xend) - 1] = 0
-        elif b[ystart][xstart] == 3:
+        elif b[ystart][xstart] == 3 or b[ystart][xstart] == 4:
             if abs(ystart - yend) == 2:
                 b[(ystart + yend) // 2][(xstart + xend) // 2] = 0
-            if yend == 7:
+            if yend == 7 or b[ystart][xstart] == 4:
                 b[yend][xend] = 4
             else:
                 b[yend][xend] = 3
-        elif b[ystart][xstart] == 4:
-            b[yend][xend] = 4
-            b[min(ystart, yend) + abs(ystart - yend) - 1][min(xstart, xend) + abs(xstart - xend) - 1] = 0
-
         b[ystart][xstart] = 0
     return b
 
@@ -241,24 +154,3 @@ def boardflip(b):
             elif b[7 - y][7 - x] == 4:
                 bb[y][x] = 2
     return bb
-
-
-
-
-# board = boardstartpos().copy()
-#
-#
-# def getboard():
-#     return board
-#
-# print(board)
-# bhash = (boardhash(board))
-# print(bhash)
-# board = boardfromhash(bhash)
-# print(board)
-# board = boardmove(board, 5032)
-# print(board)
-# bhash = (boardhash(board))
-# print(bhash)
-# board = boardfromhash(bhash)
-# print(board)
